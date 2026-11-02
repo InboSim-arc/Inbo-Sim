@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-grammarly-go-enrollment-listener-ready=""><grammarly-extension data-grammarly-shadow-root="true" class="dnXmp" style="visibility: visible !important; position: absolute; top: 0px; left: 0px; pointer-events: none; margin: 0px; border: 0px; --rem: 16;"></grammarly-extension><grammarly-extension data-grammarly-shadow-root="true" class="dnXmp" style="visibility: visible !important; position: absolute; top: 0px; left: 0px; pointer-events: none; margin: 0px; border: 0px; --rem: 16;"></grammarly-extension><head>
+<html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inbo Sim</title>
@@ -198,6 +198,7 @@
     .pub-thumb:not(:has(img:not(.missing)))::after {
       content: attr(data-venue); font-style: italic;
       font-family: var(--mono); font-size: 0.8125rem; font-weight: 500; color: var(--accent);
+      padding: 0 16px; text-align: center; line-height: 1.4;
     }
 
     .pub-title { font-weight: 600; font-size: 1.0625rem; line-height: 1.4; letter-spacing: -0.01em; }
@@ -335,8 +336,8 @@
   </style>
   <!-- Font & size settings (change them with the "Aa Style" button in edit mode) -->
   <style id="userStyle" data-body="Arial" data-head="Arial" data-scale="1"></style>
-<style></style></head>
-<body data-new-gr-c-s-check-loaded="14.1343.0" data-gr-ext-installed="" data-gr-agent-presence-bridge-connection-id="1793640765128-0.5378085947505075" data-new-gr-c-s-loaded="14.1343.0">
+</head>
+<body>
 
   <!-- ================= NAV ================= -->
   <nav>
@@ -366,7 +367,7 @@
           <div class="eyebrow"><span class="dot"></span>Open to full-time roles · 2027</div>
           <h1>Inbo Sim</h1>
           <p class="role">Ph.D. Candidate, Electrical &amp; Computer Engineering · University of Virginia</p>
-          <p class="bio" spellcheck="false">Hi! I am a Ph.D. candidate in ECE with a strong background in <strong>flexible electronics</strong> and <strong>system-level multimodal sensing with embedded chips</strong> (proximity, imaging, tactile and force sensing) for human perception and human-machine interaction.</p>
+          <p class="bio">Hi! I am a Ph.D. candidate in ECE with a strong background in <strong>flexible electronics</strong> and <strong>system-level multimodal sensing with embedded chips</strong> (proximity, imaging, tactile and force sensing) for human perception and human-machine interaction.</p>
           <div class="tags">
             <span class="tag">flexible electronics</span>
             <span class="tag">multimodal sensing</span>
@@ -446,7 +447,7 @@
         <details>     : short summary, shown only on the Publications tab.
       -->
       <article class="pub" data-type="first" data-selected="">
-        <div class="pub-thumb" data-venue="Nature Electronics(coming soon)"><img src="assets/pubs/natelectron2026.png" alt="" onerror="this.classList.add('missing')"></div>
+        <div class="pub-thumb" data-venue="Nature Electronics (coming soon)"><img src="assets/pubs/natelectron2026.png" alt="" onerror="this.classList.add('missing')"></div>
         <div>
           <p class="pub-title">Multimodal Sensory E-skin and Synchronized Haptic Interfaces for Augmented Human-Robot Interaction</p>
           <p class="authors"><b>I. Sim</b><sup>*</sup>, B. Bae<sup>*</sup>, S. Hasan, Y. Baek, D. H. Seo, W. Cho, J. Liu, Y. M. Song, J. Heo, T. Iqbal, S. Heo, K. Lee</p>
@@ -549,10 +550,6 @@
         <p class="sub">University of Virginia, Charlottesville, VA · Advisor: Prof. Kyusang Lee</p>
         <ul class="desc">
           <li>Intelligent Sensing Lab · Expected graduation: Dec 2027</li>
-          <li><br></li>
-          <li><br></li>
-          <li><br></li>
-          <li><br></li>
         </ul>
       </div>
       <div class="item">
@@ -961,6 +958,16 @@
         doc.querySelector("#year").textContent = "";
         doc.querySelector("#updated").textContent = "";
         doc.querySelector("title").textContent = "Inbo Sim";
+        // Remove things browser extensions (e.g. Grammarly) inject into the page
+        doc.querySelectorAll("*").forEach(el => {
+          if (el.tagName.includes("-")) { el.remove(); return; }
+          [...el.attributes].forEach(at => {
+            if (/^data-(new-gr|gr|grammarly)/.test(at.name) || at.name === "spellcheck") el.removeAttribute(at.name);
+          });
+        });
+        doc.querySelectorAll("head style:not([id])").forEach(st => { if (!st.textContent.trim()) st.remove(); });
+        // Drop bullets whose text was deleted
+        doc.querySelectorAll(".desc li").forEach(li => { if (!li.textContent.trim()) li.remove(); });
         return "<!DOCTYPE html>\n" + doc.outerHTML + "\n";
       }
       window.__cleanHTML = cleanHTML;
@@ -999,4 +1006,4 @@
   </script>
 
 
-</body><grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"></grammarly-desktop-integration><grammarly-popups data-grammarly-shadow-root="true" class="dnXmp" style="visibility: visible !important; --rem: 16;"></grammarly-popups></html>
+</body></html>
