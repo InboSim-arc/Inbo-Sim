@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inbo Sim</title>
   <meta name="description" content="Inbo Sim, PhD candidate in ECE at the University of Virginia. Multimodal e-skin, flexible electronics, heterogeneous integration, human-robot interaction." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link id="fontLink" rel="stylesheet" />
 
   <style>
     /* ---------- Theme tokens ---------- */
@@ -21,8 +19,11 @@
       --accent-soft: rgba(47, 91, 234, 0.08);
       --radius: 14px;
       --max: 860px;
-      --mono: "JetBrains Mono", ui-monospace, monospace;
-      --sans: "Inter", system-ui, -apple-system, sans-serif;
+      --mono: Arial, "Helvetica Neue", Helvetica, sans-serif;
+      --sans: Arial, "Helvetica Neue", Helvetica, sans-serif;
+      --head: var(--sans);
+      --head-weight: 700;
+      --scale: 1;
     }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
@@ -47,11 +48,12 @@
 
     /* ---------- Base ---------- */
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: calc(16px * var(--scale)); }
     body {
       background: var(--bg);
       color: var(--text);
       font-family: var(--sans);
-      font-size: 16px;
+      font-size: 1rem;
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
       transition: background 0.3s, color 0.3s;
@@ -75,12 +77,12 @@
       display: flex; align-items: center; justify-content: space-between;
       height: 64px;
     }
-    .logo { font-family: var(--mono); font-weight: 500; font-size: 15px; }
+    .logo { font-weight: 700; font-size: 1rem; }
     .logo span { color: var(--accent); }
     .nav-right { display: flex; gap: 10px; align-items: center; }
     .nav-links { display: flex; gap: 4px; align-items: center; }
     .nav-links a {
-      font-size: 14px; color: var(--muted);
+      font-size: 0.875rem; color: var(--muted);
       padding: 6px 12px; border-radius: 8px;
       transition: color 0.2s, background 0.2s;
     }
@@ -89,7 +91,7 @@
     .theme-btn {
       background: none; border: 1px solid var(--line); color: var(--text);
       width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
-      display: grid; place-items: center; font-size: 15px;
+      display: grid; place-items: center; font-size: 0.9375rem;
       transition: border-color 0.2s, transform 0.3s;
     }
     .theme-btn:hover { border-color: var(--accent); transform: rotate(20deg); }
@@ -107,30 +109,30 @@
     }
 
     .page-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
-    h2 { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; }
-    h2::before { content: attr(data-num); display: block; font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 400; letter-spacing: 0; margin-bottom: 6px; }
+    h2 { font-family: var(--head); font-size: 1.875rem; font-weight: var(--head-weight); letter-spacing: -0.02em; }
+    h2::before { content: attr(data-num); display: block; font-family: var(--mono); font-size: 0.8125rem; color: var(--accent); font-weight: 400; letter-spacing: 0; margin-bottom: 6px; }
 
     /* ---------- About (home) ---------- */
     .hero { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; padding-top: 32px; }
     .eyebrow {
-      font-family: var(--mono); font-size: 13px; color: var(--accent);
+      font-family: var(--mono); font-size: 0.8125rem; color: var(--accent);
       display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px;
     }
     .dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 4px rgba(34,197,94,0.15); }
-    h1 { font-size: clamp(36px, 6vw, 54px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
-    .role { color: var(--muted); margin-top: 14px; font-size: 17px; }
+    h1 { font-family: var(--head); font-size: clamp(2.25rem, calc(6vw * var(--scale)), 3.375rem); font-weight: var(--head-weight); letter-spacing: -0.03em; line-height: 1.1; }
+    .role { color: var(--muted); margin-top: 14px; font-size: 1.0625rem; }
     .bio { margin-top: 22px; max-width: 560px; }
     .bio strong { font-weight: 600; }
     .bio a { border-bottom: 1px solid var(--line); }
     .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
     .tag {
-      font-size: 12.5px; font-family: var(--mono);
+      font-size: 0.7812rem; font-family: var(--mono);
       padding: 4px 10px; border-radius: 999px;
       border: 1px solid var(--line); color: var(--muted);
     }
     .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
     .btn {
-      font-size: 14px; font-weight: 500;
+      font-size: 0.875rem; font-weight: 500;
       padding: 9px 16px; border-radius: 10px;
       border: 1px solid var(--line);
       transition: all 0.2s;
@@ -150,29 +152,29 @@
       display: flex; justify-content: space-between; align-items: baseline;
       padding-bottom: 10px; margin-bottom: 6px; border-bottom: 1px solid var(--line);
     }
-    .pv-head h3 { font-size: 15px; font-weight: 600; }
-    .pv-head h3 span { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 400; margin-right: 8px; }
-    .pv-head a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
+    .pv-head h3 { font-family: var(--head); font-size: 0.9375rem; font-weight: 600; }
+    .pv-head h3 span { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); font-weight: 400; margin-right: 8px; }
+    .pv-head a { font-size: 0.8125rem; color: var(--muted); transition: color 0.2s; }
     .pv-head a:hover { color: var(--accent); }
     .pv-list { list-style: none; }
-    .pv-list li { padding: 10px 0; font-size: 14.5px; display: grid; gap: 14px; }
+    .pv-list li { padding: 10px 0; font-size: 0.9062rem; display: grid; gap: 14px; }
     .pv-news li { grid-template-columns: 80px 1fr; }
     .pv-pubs { margin-top: 10px; }
-    .pv-list time, .pv-list .when { font-family: var(--mono); font-size: 12.5px; color: var(--muted); padding-top: 2px; }
+    .pv-list time, .pv-list .when { font-family: var(--mono); font-size: 0.7812rem; color: var(--muted); padding-top: 2px; }
     .pv-list .t { font-weight: 500; line-height: 1.45; }
-    .pv-list .s { color: var(--muted); font-size: 13.5px; }
+    .pv-list .s { color: var(--muted); font-size: 0.8438rem; }
     .pv-items li { grid-template-columns: 1fr auto; }
 
     /* ---------- News ---------- */
     .news { list-style: none; }
     .news li { display: grid; grid-template-columns: 96px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
     .news li:last-child { border-bottom: none; }
-    .news time { font-family: var(--mono); font-size: 13px; color: var(--muted); padding-top: 2px; }
+    .news time { font-family: var(--mono); font-size: 0.8125rem; color: var(--muted); padding-top: 2px; }
 
     /* ---------- Publications ---------- */
     .filters { display: flex; gap: 6px; }
     .filter {
-      font: 500 13px var(--sans); color: var(--muted);
+      font: 500 0.8125rem var(--sans); color: var(--muted);
       background: none; border: 1px solid var(--line);
       padding: 5px 12px; border-radius: 999px; cursor: pointer;
       transition: all 0.2s;
@@ -193,22 +195,23 @@
       display: grid; place-items: center; align-self: start;
     }
     .pub-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; }
-    .pub-thumb:empty::after {
-      content: attr(data-venue);
-      font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--accent);
+    .pub-thumb img.missing, .avatar.missing { display: none; }
+    .pub-thumb:not(:has(img:not(.missing)))::after {
+      content: attr(data-venue); font-style: italic;
+      font-family: var(--mono); font-size: 0.8125rem; font-weight: 500; color: var(--accent);
     }
 
-    .pub-title { font-weight: 600; font-size: 17px; line-height: 1.4; letter-spacing: -0.01em; }
-    .authors { color: var(--muted); font-size: 14.5px; margin-top: 8px; }
+    .pub-title { font-weight: 600; font-size: 1.0625rem; line-height: 1.4; letter-spacing: -0.01em; }
+    .authors { color: var(--muted); font-size: 0.9062rem; margin-top: 8px; }
     .authors b { color: var(--text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-    .authors sup { font-size: 10px; }
-    .pub-meta { font-size: 14.5px; color: var(--muted); margin-top: 4px; font-style: italic; }
-    .pub-meta b { color: var(--text); font-weight: 600; }
+    .authors sup { font-size: 0.625rem; }
+    .pub-meta { font-size: 0.9062rem; color: var(--muted); margin-top: 4px; }
+    .pub-meta i { color: var(--text); }
     .award { color: #e0785a; font-style: normal; }
     .pub-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
     .pub-links a {
       display: inline-flex; align-items: center; gap: 6px;
-      font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+      font-family: var(--mono); font-size: 0.7812rem; color: var(--muted);
       padding: 4px 10px; border: 1px solid var(--line); border-radius: 7px;
       transition: color 0.2s, border-color 0.2s;
     }
@@ -225,29 +228,89 @@
     .pub.hide { display: none; }
     .pub details { margin-top: 10px; }
     .pub summary {
-      font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+      font-family: var(--mono); font-size: 0.7812rem; color: var(--muted);
       cursor: pointer; list-style: none; width: fit-content;
     }
     .pub summary::-webkit-details-marker { display: none; }
     .pub summary::before { content: "+ "; }
     .pub details[open] summary::before { content: "− "; }
     .pub summary:hover { color: var(--accent); }
-    .pub details p { font-size: 14.5px; margin-top: 8px; color: var(--muted); line-height: 1.6; }
+    .pub details p { font-size: 0.9062rem; margin-top: 8px; color: var(--muted); line-height: 1.6; }
     .pub-fig { margin-top: 12px; max-width: 100%; border-radius: 10px; border: 1px solid var(--line); }
-    .desc { grid-column: 1 / -1; margin-top: 8px; padding-left: 18px; font-size: 14.5px; color: var(--muted); }
+    .desc { grid-column: 1 / -1; margin-top: 8px; padding-left: 18px; font-size: 0.9062rem; color: var(--muted); }
     .desc li { margin: 3px 0; }
-    .note { font-size: 13px; color: var(--muted); margin-top: 16px; }
+    .note { font-size: 0.8125rem; color: var(--muted); margin-top: 16px; }
     .note a { color: var(--accent); }
 
     /* ---------- Education / Teaching ---------- */
     .item { display: grid; grid-template-columns: 1fr auto; gap: 4px 20px; padding: 18px 0; border-bottom: 1px solid var(--line); }
     .item:last-child { border-bottom: none; }
-    .item h3 { font-size: 16px; font-weight: 600; }
-    .item .sub { color: var(--muted); font-size: 14.5px; grid-column: 1; }
-    .item .date { font-family: var(--mono); font-size: 13px; color: var(--muted); grid-row: 1; grid-column: 2; padding-top: 2px; }
+    .item h3 { font-size: 1rem; font-weight: 600; }
+    .item .sub { color: var(--muted); font-size: 0.9062rem; grid-column: 1; }
+    .item .date { font-family: var(--mono); font-size: 0.8125rem; color: var(--muted); grid-row: 1; grid-column: 2; padding-top: 2px; }
+
+    /* ---------- Edit mode (open the page as index.html?edit) ---------- */
+    .edit-mode { padding-bottom: 90px; }
+    .edit-mode [contenteditable] { outline: 1px dashed transparent; outline-offset: 3px; border-radius: 3px; transition: outline-color 0.15s; cursor: text; }
+    .edit-mode [contenteditable]:hover { outline-color: var(--muted); }
+    .edit-mode [contenteditable]:focus { outline: 1.5px solid var(--accent); }
+    .edit-mode .avatar.missing { display: block; border: 1.5px dashed var(--muted); }
+    .edit-mode .avatar, .edit-mode #publications .pub-thumb, .edit-mode #publications .pub-thumb img { cursor: pointer; }
+    .edit-mode .pv-head h3::after {
+      content: "auto · edit in the tab"; margin-left: 10px;
+      font: 400 11px var(--mono); color: var(--muted);
+    }
+    [data-editor] { font-family: var(--sans); font-size: 13px; color: var(--text); }
+    #edToolbar {
+      position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 60;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center;
+      width: max-content; max-width: calc(100% - 24px); padding: 10px 12px 10px 16px;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    #edToolbar .ed-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+    #edToolbar .ed-status { color: var(--muted); font-family: var(--mono); font-size: 12px; }
+    #edToolbar .ed-tip { color: var(--muted); font-size: 12px; }
+    #edToolbar button, #edBar button, #edPop button {
+      font: 500 13px var(--sans); color: var(--text); cursor: pointer;
+      background: none; border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px;
+    }
+    #edToolbar button.primary, #edPop button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    #edBar {
+      position: absolute; z-index: 55; display: none; gap: 4px; padding: 4px;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+    #edBar button { padding: 3px 8px; font-size: 12px; }
+    #edBar button:hover { border-color: var(--accent); color: var(--accent); }
+    #edPop {
+      position: absolute; z-index: 58; display: none; width: 320px; max-width: calc(100vw - 16px);
+      padding: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    #edStyle {
+      position: fixed; z-index: 61; left: 50%; bottom: 100px; transform: translateX(-50%);
+      display: none; width: 320px; max-width: calc(100vw - 16px); padding: 14px;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    #edStyle.open { display: block; }
+    #edStyle input[type="range"] { padding: 0; border: none; background: none; accent-color: var(--accent); }
+    #edStyle b { color: var(--text); font-family: var(--mono); font-weight: 500; margin-left: 4px; }
+    #edStyle button { font: 500 13px var(--sans); color: var(--text); cursor: pointer; background: none; border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; }
+    #edStyle button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    #edStyle .ed-actions { display: flex; justify-content: flex-end; gap: 6px; }
+    #edPop label, #edStyle label { display: block; color: var(--muted); font-size: 12px; margin-bottom: 10px; }
+    #edPop input, #edPop select, #edStyle select, #edStyle input {
+      display: block; width: 100%; margin-top: 4px; padding: 7px 9px;
+      font: 13px var(--mono); color: var(--text); background: var(--bg);
+      border: 1px solid var(--line); border-radius: 7px;
+    }
+    #edPop input:focus, #edPop select:focus { outline: none; border-color: var(--accent); }
+    #edPop .ed-actions { display: flex; justify-content: flex-end; gap: 6px; }
 
     /* ---------- Footer ---------- */
-    footer { padding: 32px 0 48px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    footer { padding: 32px 0 48px; border-top: 1px solid var(--line); font-size: 0.8125rem; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
     /* ---------- Mobile ---------- */
     @media (max-width: 720px) {
@@ -271,13 +334,15 @@
       .item .date { grid-row: auto; grid-column: 1; }
     }
   </style>
+  <!-- Font & size settings (change them with the "Aa Style" button in edit mode) -->
+  <style id="userStyle" data-body="Arial" data-head="Arial" data-scale="1"></style>
 </head>
 <body>
 
   <!-- ================= NAV ================= -->
   <nav>
     <div class="wrap nav-inner">
-      <a href="#about" class="logo">inbo<span>.</span>sim</a>
+      <a href="#about" class="logo">Inbo Sim</a>
       <div class="nav-right">
         <div class="nav-links" id="navLinks">
           <a href="#about" data-page="about">About</a>
@@ -302,29 +367,23 @@
           <div class="eyebrow"><span class="dot"></span>Open to full-time roles · 2027</div>
           <h1>Inbo Sim</h1>
           <p class="role">Ph.D. Candidate, Electrical &amp; Computer Engineering · University of Virginia</p>
-          <p class="bio">
-            I build <strong>multimodal electronic skin (e-skin)</strong> that lets robots feel and respond to the
-            physical world. My work spans flexible electronics, heterogeneous chip integration, and
-            human-robot interaction, from device fabrication up to on-body edge computing.
-            I am advised by <a href="[Lab URL]" target="_blank">Prof. Kyusang Lee</a>
-            in the Intelligent Sensing Lab.
-          </p>
+          <p class="bio">Hi! I am a Ph.D. candidate in ECE with a strong background in <strong>flexible electronics</strong> and <strong>system-level multimodal sensing with embedded chips</strong> (proximity, imaging, tactile and force sensing) for human perception and human-machine interaction.</p>
           <div class="tags">
-            <span class="tag">e-skin</span>
             <span class="tag">flexible electronics</span>
+            <span class="tag">multimodal sensing</span>
+            <span class="tag">e-skin</span>
             <span class="tag">heterogeneous integration</span>
-            <span class="tag">HRI</span>
-            <span class="tag">AR/VR displays</span>
+            <span class="tag">human-machine interaction</span>
           </div>
           <div class="links">
             <a class="btn primary" href="assets/CV_InboSim.pdf" target="_blank">CV ↗</a>
-            <a class="btn" href="mailto:[email]@virginia.edu">Email</a>
+            <a class="btn" href="mailto:rhc6yh@virginia.edu">Email</a>
             <a class="btn" href="[Google Scholar URL]" target="_blank">Scholar</a>
             <a class="btn" href="[LinkedIn URL]" target="_blank">LinkedIn</a>
             <a class="btn" href="https://github.com/[username]" target="_blank">GitHub</a>
           </div>
         </div>
-        <img class="avatar" src="assets/profile.jpg" alt="Inbo Sim" onerror="this.style.display='none'" />
+        <img class="avatar" src="assets/profile.jpg" alt="Inbo Sim" onerror="this.classList.add('missing')" />
       </div>
 
       <!-- Previews: filled automatically by JS from the detail pages below -->
@@ -354,11 +413,18 @@
     <section id="news" class="page">
       <div class="page-head"><h2 data-num="01">News</h2></div>
       <ul class="news">
-        <li><time>2026.[MM]</time><span>Our paper on event-driven neuromorphic gaze decoding with e-skin electrooculography is published in <b>ACS Nano</b>.</span></li>
-        <li><time>[YYYY.MM]</time><span>First-author paper published in <b>Nature Electronics</b>.</span></li>
-        <li><time>2025.[MM]</time><span>Our Perspective on microdisplay technologies for AR/VR headsets is published in <b>Nature Reviews Electrical Engineering</b>.</span></li>
-        <li><time>[YYYY.MM]</time><span>[Award / talk / conference presentation]</span></li>
-        <li><time>[YYYY.MM]</time><span>Started Ph.D. at the University of Virginia, joining the Intelligent Sensing Lab.</span></li>
+        <li><time>2026</time><span>My first-author paper on multimodal sensory e-skin with synchronized haptic interfaces is accepted in <i>Nature Electronics</i>.</span></li>
+        <li><time>2026</time><span>My co-first-author review on embodied edge computing for real-time perception in physical AI is accepted in <i>Nature Reviews Computing</i>.</span></li>
+        <li><time>2026.04</time><span>My co-first-author paper on event-driven neuromorphic gaze decoding with e-skin electrooculography is published in <i>ACS Nano</i>.</span></li>
+        <li><time>2025.08</time><span>My first-author Perspective on microdisplay technologies for augmented reality and virtual reality headsets is published in <i>Nature Reviews Electrical Engineering</i>.</span></li>
+        <li><time>2025.01</time><span>My <i>Science Robotics</i> paper on stereoscopic artificial compound eyes is selected as the journal's best paper of 2024.</span></li>
+        <li><time>2024.10</time><span>Our paper on a network of artificial olfactory receptors for toxic gas monitoring is published in <i>Science Advances</i>.</span></li>
+        <li><time>2024.07</time><span>Our paper on stereoscopic artificial compound eyes for 3D spatiotemporal perception is published in <i>Science Robotics</i>.</span></li>
+        <li><time>2023.08</time><span>Started my Ph.D. in Electrical Engineering at the University of Virginia, joining the Intelligent Sensing Lab (advisor: Prof. Kyusang Lee).</span></li>
+        <li><time>2023.08</time><span>Received my B.E. in Electrical Engineering from DGIST.</span></li>
+        <li><time>2023</time><span>Our paper on a hetero-integrated InGaAs photodiode and oxide memristor artificial optical nerve is published in <i>Advanced Optical Materials</i>.</span></li>
+        <li><time>2023.01</time><span>Research intern at the Energy Device and Nano-Engineering Lab, Seoul National University.</span></li>
+        <li><time>2022.06</time><span>Research intern at the Thin Film Devices Laboratory, University of Virginia.</span></li>
       </ul>
     </section>
 
@@ -373,76 +439,105 @@
       </div>
 
       <!--
-        How to add a paper: copy one <article> block.
-        data-type     : "first" or "co"  (used by the filter)
+        How to add a paper: copy one <article> block (or use ⧉ in edit mode).
+        data-type     : "first" or "co"  (used by the filter; co-first counts as "first")
         data-selected : add this attribute to also show the paper on the home page
         .pub-thumb    : put the image in assets/pubs/. If it is missing, the venue name is shown instead.
         Link chips    : write <a data-icon="paper|pdf|website|code|video"> and the icon is added automatically.
-        <details>     : abstract, shown only on the Publications tab.
+        <details>     : short summary, shown only on the Publications tab.
       -->
       <article class="pub" data-type="first" data-selected>
-        <div class="pub-thumb" data-venue="ACS Nano"><img src="assets/pubs/acsnano2026.png" alt="" onerror="this.remove()" /></div>
+        <div class="pub-thumb" data-venue="Nature Electronics"><img src="assets/pubs/natelectron2026.png" alt="" onerror="this.classList.add('missing')" /></div>
         <div>
-          <p class="pub-title">Event-Driven Neuromorphic Gaze Decoding via e-Skin Electrooculography</p>
-          <p class="authors"><b>Inbo Sim</b><sup>*</sup>, [Co-first author]<sup>*</sup>, …, Kyusang Lee</p>
-          <p class="pub-meta"><b>ACS Nano</b> 2026</p>
-          <div class="pub-links">
-            <a data-icon="paper" href="[DOI URL]" target="_blank">paper</a>
-            <a data-icon="pdf" href="[PDF URL]" target="_blank">pdf</a>
-            <a data-icon="code" href="[Code URL]" target="_blank">code</a>
-          </div>
+          <p class="pub-title">Multimodal Sensory E-skin and Synchronized Haptic Interfaces for Augmented Human-Robot Interaction</p>
+          <p class="authors"><b>I. Sim</b><sup>*</sup>, B. Bae<sup>*</sup>, S. Hasan, Y. Baek, D. H. Seo, W. Cho, J. Liu, Y. M. Song, J. Heo, T. Iqbal, S. Heo, K. Lee</p>
+          <p class="pub-meta"><i>Nature Electronics</i> (accepted)</p>
           <details>
-            <summary>abstract</summary>
-            <p>[Abstract or a 2–3 sentence summary of the paper.]</p>
+            <summary>summary</summary>
+            <p>A flexible multimodal e-skin that combines near-infrared proximity sensing with piezoresistive tactile arrays on robotic fingertips. The sensors are synchronized with haptic interfaces, which gives real-time proximity mapping and tactile feedback for teleoperation and shared autonomy.</p>
           </details>
         </div>
       </article>
 
       <article class="pub" data-type="first" data-selected>
-        <div class="pub-thumb" data-venue="Nature Electronics"><img src="assets/pubs/natelectron.png" alt="" onerror="this.remove()" /></div>
+        <div class="pub-thumb" data-venue="Nature Reviews Computing"><img src="assets/pubs/natrevcomput2026.png" alt="" onerror="this.classList.add('missing')" /></div>
         <div>
-          <p class="pub-title">[Paper title]</p>
-          <p class="authors"><b>Inbo Sim</b>, …, Kyusang Lee</p>
-          <p class="pub-meta"><b>Nature Electronics</b> [Year] <span class="award">([Award / highlight, optional])</span></p>
-          <div class="pub-links">
-            <a data-icon="paper" href="[DOI URL]" target="_blank">paper</a>
-            <a data-icon="website" href="[Project page URL]" target="_blank">website</a>
-            <a data-icon="video" href="[Video URL]" target="_blank">video</a>
-          </div>
-          <details>
-            <summary>abstract</summary>
-            <p>[Abstract or a 2–3 sentence summary of the paper.]</p>
-          </details>
-        </div>
-      </article>
-
-      <article class="pub" data-type="first" data-selected>
-        <div class="pub-thumb" data-venue="Nat. Rev. Electr. Eng."><img src="assets/pubs/natreviee2025.png" alt="" onerror="this.remove()" /></div>
-        <div>
-          <p class="pub-title">Microdisplay technologies in augmented reality and virtual reality headsets</p>
-          <p class="authors"><b>Inbo Sim</b>, …</p>
-          <p class="pub-meta"><b>Nature Reviews Electrical Engineering</b> 2025 · Perspective</p>
-          <div class="pub-links">
-            <a data-icon="paper" href="[DOI URL]" target="_blank">paper</a>
-          </div>
-          <details>
-            <summary>abstract</summary>
-            <p>[Abstract or a 2–3 sentence summary of the paper.]</p>
-          </details>
+          <p class="pub-title">Embodied edge computing for real-time perception in physical AI</p>
+          <p class="authors">B. Bae<sup>*</sup>, S. Kim<sup>*</sup>, <b>I. Sim</b><sup>*</sup>, S. B. Choi<sup>*</sup>, N. Bezzo, S. Hong, I. Lee, T. Iqbal, S. Chung, F. Fioretto, J. Kung, K. Lee</p>
+          <p class="pub-meta"><i>Nature Reviews Computing</i> (accepted)</p>
         </div>
       </article>
 
       <article class="pub" data-type="co">
-        <div class="pub-thumb" data-venue="[Venue]"><img src="assets/pubs/[file].png" alt="" onerror="this.remove()" /></div>
+        <div class="pub-thumb" data-venue="Under review"><img src="assets/pubs/gait.png" alt="" onerror="this.classList.add('missing')" /></div>
         <div>
-          <p class="pub-title">[Co-authored paper title]</p>
-          <p class="authors">[Author], <b>Inbo Sim</b>, …</p>
-          <p class="pub-meta"><b>[Journal]</b> [Year]</p>
-          <div class="pub-links"><a data-icon="paper" href="[DOI URL]" target="_blank">paper</a></div>
+          <p class="pub-title">Personalizable gait sensing through meta-learned on-chip enrollment</p>
+          <p class="authors">Y. Baek, B. Bae, D. H. Seo, J. Cho, <b>I. Sim</b>, D. Kim, S. Kim, Y. Gong, S. Kim, D. Kim, Y. H. Jeon, S. Chung, S.-H. Song, Y. M. Song, Y. S. Lee</p>
+          <p class="pub-meta">Under review</p>
         </div>
       </article>
 
-      <p class="note">* Equal contribution. Full list on <a href="[Google Scholar URL]" target="_blank">Google Scholar</a>.</p>
+      <article class="pub" data-type="first" data-selected>
+        <div class="pub-thumb" data-venue="ACS Nano"><img src="assets/pubs/acsnano2026.png" alt="" onerror="this.classList.add('missing')" /></div>
+        <div>
+          <p class="pub-title">Event-Driven Neuromorphic Gaze Decoding via e-Skin Electrooculography</p>
+          <p class="authors">S. Jeong<sup>*</sup>, H. W. Ko<sup>*</sup>, J. Kang<sup>*</sup>, J. Ko<sup>*</sup>, <b>I. Sim</b><sup>*</sup>, Z. Xu, H. Jeong, Y. Choi, S. Jo, J. W. Shim, P. H. Seo, M. S. Chae, Y. Kim, H. Yeon, Y. Suh, H. Lee, J. Kim, K. Lee<sup>†</sup>, S. Bae<sup>†</sup>, M. Park<sup>†</sup>, S. Mun<sup>†</sup></p>
+          <p class="pub-meta"><i>ACS Nano</i> 2026</p>
+          <div class="pub-links">
+            <a data-icon="paper" href="https://doi.org/10.1021/acsnano.5c19720" target="_blank">paper</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pub" data-type="first" data-selected>
+        <div class="pub-thumb" data-venue="Nat. Rev. Electr. Eng."><img src="assets/pubs/natreviee2025.png" alt="" onerror="this.classList.add('missing')" /></div>
+        <div>
+          <p class="pub-title">Microdisplay technologies in augmented reality and virtual reality headsets</p>
+          <p class="authors"><b>I. Sim</b>, K. Choi, Y. Baek, J. H. Choi, J. Jo, J. Yeom, B. Kim, Y. Cho, H. Lee, H. Bang, J.-H. Han, D. H. Park<sup>†</sup>, J. Kim<sup>†</sup>, K. Lee<sup>†</sup></p>
+          <p class="pub-meta"><i>Nature Reviews Electrical Engineering</i> 2025 · Perspective</p>
+          <div class="pub-links">
+            <a data-icon="paper" href="https://doi.org/10.1038/s44287-025-00199-x" target="_blank">paper</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pub" data-type="co">
+        <div class="pub-thumb" data-venue="Science Advances"><img src="assets/pubs/sciadv2024.png" alt="" onerror="this.classList.add('missing')" /></div>
+        <div>
+          <p class="pub-title">Network of artificial olfactory receptors for spatiotemporal monitoring of toxic gas</p>
+          <p class="authors">Y. Baek<sup>*</sup>, B. Bae<sup>*</sup>, J. Yang, W. Cho, <b>I. Sim</b>, G. Yoo, S. Chung, J. Heo<sup>†</sup>, K. Lee<sup>†</sup></p>
+          <p class="pub-meta"><i>Science Advances</i> 2024</p>
+          <div class="pub-links">
+            <a data-icon="paper" href="https://doi.org/10.1126/sciadv.adr2659" target="_blank">paper</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pub" data-type="co">
+        <div class="pub-thumb" data-venue="Science Robotics"><img src="assets/pubs/scirobotics2024.png" alt="" onerror="this.classList.add('missing')" /></div>
+        <div>
+          <p class="pub-title">Stereoscopic artificial compound eyes for spatiotemporal perception in three-dimensional space</p>
+          <p class="authors">B. Bae<sup>*</sup>, M. Park<sup>*</sup>, D. Lee<sup>*</sup>, Y. Baek, Y. Mu, S. Kim, T. Kim, J. Yang, <b>I. Sim</b>, C. Shen, K. Lee<sup>†</sup></p>
+          <p class="pub-meta"><i>Science Robotics</i> 2024 <span class="award">(Best Paper of 2024)</span></p>
+          <div class="pub-links">
+            <a data-icon="paper" href="https://doi.org/10.1126/scirobotics.adl3606" target="_blank">paper</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="pub" data-type="co">
+        <div class="pub-thumb" data-venue="Adv. Optical Mater."><img src="assets/pubs/advoptmater2023.png" alt="" onerror="this.classList.add('missing')" /></div>
+        <div>
+          <p class="pub-title">Hetero-Integrated InGaAs Photodiode and Oxide Memristor-Based Artificial Optical Nerve for In-Sensor NIR Image Processing</p>
+          <p class="authors">B. Bae<sup>*</sup>, M. Park<sup>*</sup>, D. Lee<sup>*</sup>, <b>I. Sim</b>, K. Lee<sup>†</sup></p>
+          <p class="pub-meta"><i>Advanced Optical Materials</i> 2023</p>
+          <div class="pub-links">
+            <a data-icon="paper" href="https://doi.org/10.1002/adom.202201905" target="_blank">paper</a>
+          </div>
+        </div>
+      </article>
+
+      <p class="note">* Equal contribution. † Corresponding author. Full list on <a href="[Google Scholar URL]" target="_blank">Google Scholar</a>.</p>
     </section>
 
     <!-- ================= EDUCATION ================= -->
@@ -450,21 +545,26 @@
       <div class="page-head"><h2 data-num="03">Education</h2></div>
       <!-- The <ul class="desc"> lists show only on this page, not on the home preview -->
       <div class="item">
-        <h3>Ph.D. in Electrical &amp; Computer Engineering</h3>
-        <span class="date">[YYYY] – 2027 (expected)</span>
-        <p class="sub">University of Virginia · Advisor: Prof. Kyusang Lee</p>
+        <h3>Ph.D. in Electrical Engineering</h3>
+        <span class="date">Aug 2023 – Present</span>
+        <p class="sub">University of Virginia, Charlottesville, VA · Advisor: Prof. Kyusang Lee</p>
         <ul class="desc">
-          <li>Dissertation: [Working title]</li>
-          <li>Intelligent Sensing Lab: multimodal e-skin, flexible electronics, heterogeneous chip integration</li>
-          <li>[Fellowship / award, if any]</li>
+          <li>Intelligent Sensing Lab · Expected graduation: Dec 2027</li>
+          <li>Multimodal e-skins with haptic interfaces for augmented human-robot interaction</li>
+          <li>Reconfigurable multi-axis force recognition in 3D space for adaptive human-robot interaction</li>
+          <li>Proximity-sensing-based 3D point cloud reconstruction for human-machine collaboration</li>
+          <li>Flexible pressure sensor integrated with an oxide thin-film transistor and piezoelectric material for gait analysis</li>
         </ul>
       </div>
       <div class="item">
-        <h3>[M.S. / B.S. in ...]</h3>
-        <span class="date">[YYYY] – [YYYY]</span>
-        <p class="sub">[University]</p>
+        <h3>B.E. in Electrical Engineering</h3>
+        <span class="date">Mar 2018 – Aug 2023</span>
+        <p class="sub">Daegu Gyeongbuk Institute of Science and Technology (DGIST), Daegu, South Korea</p>
         <ul class="desc">
-          <li>[Thesis / advisor / honors]</li>
+          <li>Research Intern, Energy Device and Nano-Engineering Lab, Seoul National University (Jan – Feb 2023)</li>
+          <li>Research Intern, Thin Film Devices Laboratory, University of Virginia (Jun – Aug 2022)</li>
+          <li>Undergraduate Research Intern, Bio-integrated Electronics Laboratory, DGIST (Sep 2021 – May 2022)</li>
+          <li>Research Intern, Multiscale Biomedical Robotics Laboratory, DGIST (Jan – Feb 2021)</li>
         </ul>
       </div>
     </section>
@@ -473,21 +573,14 @@
     <section id="teaching" class="page">
       <div class="page-head"><h2 data-num="04">Teaching</h2></div>
       <div class="item">
-        <h3>Teaching Assistant · [Course code: Course name]</h3>
-        <span class="date">[Semester YYYY]</span>
-        <p class="sub">University of Virginia, Dept. of ECE · Instructor: [Name]</p>
-        <ul class="desc">
-          <li>[Responsibilities, e.g. led weekly lab sessions for ~N students]</li>
-          <li>[Grading, office hours, course material development]</li>
-        </ul>
+        <h3>Teaching Assistant · ENRG 2500: From AI to Nano</h3>
+        <span class="date">Spring 2026</span>
+        <p class="sub">University of Virginia</p>
       </div>
       <div class="item">
-        <h3>Teaching Assistant · [Course code: Course name]</h3>
-        <span class="date">[Semester YYYY]</span>
-        <p class="sub">University of Virginia, Dept. of ECE · Instructor: [Name]</p>
-        <ul class="desc">
-          <li>[Responsibilities]</li>
-        </ul>
+        <h3>Teaching Assistant · ENRG 2500: From AI to Nano</h3>
+        <span class="date">Spring 2025</span>
+        <p class="sub">University of Virginia</p>
       </div>
     </section>
   </main>
@@ -500,16 +593,11 @@
   <div class="lightbox" id="lightbox"><img alt="" /></div>
 
   <script>
-    // ---------- Home previews: built from the detail pages ----------
-    const PREVIEW = { news: 3, pubs: 3 };
-    const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const EDIT = new URLSearchParams(location.search).has("edit");
+    const PREVIEW = { news: 4, pubs: 4 };   // how many items the home page shows
+    const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-    // News: first N items, as-is
-    document.getElementById("pvNews").innerHTML =
-      [...document.querySelectorAll("#news .news li")].slice(0, PREVIEW.news)
-        .map(li => `<li>${li.innerHTML}</li>`).join("");
-
-    // Link chip icons (data-icon="paper|pdf|website|code|video")
+    // ---------- Link chip icons (data-icon="paper|pdf|website|code|video") ----------
     const ICONS = {
       paper:   '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
       pdf:     '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 11v6m-3-3 3 3 3-3"/>',
@@ -517,55 +605,57 @@
       code:    '<path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>',
       video:   '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3z"/>'
     };
-    document.querySelectorAll(".pub-links a[data-icon]").forEach(a => {
+    function addIcon(a) {
+      a.querySelector("svg")?.remove();
       const d = ICONS[a.dataset.icon];
       if (d) a.insertAdjacentHTML("afterbegin",
         `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`);
-    });
+    }
+    document.querySelectorAll(".pub-links a[data-icon]").forEach(addIcon);
 
-    // Publications on home: full cards (with thumbnail) for papers marked data-selected,
-    // without the abstract toggle
-    let pubs = [...document.querySelectorAll("#publications .pub[data-selected]")];
-    if (!pubs.length) pubs = [...document.querySelectorAll("#publications .pub")];
-    const pvPubs = document.getElementById("pvPubs");
-    pubs.slice(0, PREVIEW.pubs).forEach(p => {
-      const card = p.cloneNode(true);
-      card.querySelector("details")?.remove();
-      pvPubs.appendChild(card);
-    });
+    // ---------- Home previews: rebuilt from the detail tabs ----------
+    const cleanClone = el => {
+      const c = el.cloneNode(true);
+      [c, ...c.querySelectorAll("[contenteditable]")].forEach(n => n.removeAttribute("contenteditable"));
+      c.classList.remove("hide");
+      return c;
+    };
+    function buildPreviews() {
+      const pvNews = document.getElementById("pvNews");
+      pvNews.replaceChildren(...[...document.querySelectorAll("#news .news li")]
+        .slice(0, PREVIEW.news).map(cleanClone));
 
-    // Click a thumbnail to view it large
-    const lightbox = document.getElementById("lightbox");
-    document.addEventListener("click", e => {
-      const img = e.target.closest(".pub-thumb img");
-      if (img) { lightbox.querySelector("img").src = img.src; lightbox.classList.add("open"); }
-    });
-    lightbox.addEventListener("click", () => lightbox.classList.remove("open"));
-    addEventListener("keydown", e => { if (e.key === "Escape") lightbox.classList.remove("open"); });
+      let pubs = [...document.querySelectorAll("#publications .pub[data-selected]")];
+      if (!pubs.length) pubs = [...document.querySelectorAll("#publications .pub")];
+      document.getElementById("pvPubs").replaceChildren(...pubs.slice(0, PREVIEW.pubs).map(p => {
+        const c = cleanClone(p);
+        c.querySelector("details")?.remove();
+        return c;
+      }));
 
-    // Education & Teaching: title, place, date (no bullet details)
-    const briefItems = (sel, target) => {
-      document.getElementById(target).innerHTML =
-        [...document.querySelectorAll(sel)].map(it => `
+      const brief = (sel, id) => {
+        document.getElementById(id).innerHTML = [...document.querySelectorAll(sel)].map(it => `
           <li>
             <div>
-              <div class="t">${it.querySelector("h3").innerHTML}</div>
-              <div class="s">${it.querySelector(".sub").innerHTML.split(" · ")[0]}</div>
+              <div class="t">${it.querySelector("h3")?.innerHTML ?? ""}</div>
+              <div class="s">${(it.querySelector(".sub")?.innerHTML ?? "").split(" · ")[0]}</div>
             </div>
-            <span class="when">${esc(it.querySelector(".date").textContent)}</span>
+            <span class="when">${esc(it.querySelector(".date")?.textContent)}</span>
           </li>`).join("");
-    };
-    briefItems("#education .item", "pvEdu");
-    briefItems("#teaching .item", "pvTeach");
+      };
+      brief("#education .item", "pvEdu");
+      brief("#teaching .item", "pvTeach");
+    }
 
     // ---------- Page routing (hash based, works on GitHub Pages) ----------
     const pages = [...document.querySelectorAll(".page")];
     const navLinks = document.getElementById("navLinks");
-    const titles = { about: "Inbo Sim", news: "News", publications: "Publications", education: "Education", teaching: "Teaching" };
+    const titles = { news: "News", publications: "Publications", education: "Education", teaching: "Teaching" };
 
     function route() {
       const id = location.hash.replace("#", "") || "about";
       const target = pages.find(p => p.id === id) ? id : "about";
+      if (target === "about") buildPreviews();
       pages.forEach(p => p.classList.toggle("active", p.id === target));
       navLinks.querySelectorAll("a[data-page]").forEach(a =>
         a.classList.toggle("active", a.dataset.page === target));
@@ -604,10 +694,309 @@
       });
     });
 
+    // ---------- Thumbnail lightbox ----------
+    const lightbox = document.getElementById("lightbox");
+    document.addEventListener("click", e => {
+      if (EDIT) return;
+      const img = e.target.closest(".pub-thumb img");
+      if (img) { lightbox.querySelector("img").src = img.src; lightbox.classList.add("open"); }
+    });
+    lightbox.addEventListener("click", () => lightbox.classList.remove("open"));
+    addEventListener("keydown", e => { if (e.key === "Escape") lightbox.classList.remove("open"); });
+
     // ---------- Footer dates ----------
     document.getElementById("year").textContent = new Date().getFullYear();
     document.getElementById("updated").textContent =
       new Date(document.lastModified).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+
+    // =====================================================================
+    //  EDIT MODE: open the page as  index.html?edit
+    //  Click text to edit it, hover a block for duplicate / move / delete,
+    //  click a link or image to change its address, then press Save.
+    //  Visitors who add ?edit can only change their own local copy.
+    // =====================================================================
+    if (EDIT) initEditor();
+
+    function initEditor() {
+      const body = document.body;
+      body.classList.add("edit-mode");
+      let dirty = false, fileHandle = null, cur = null;
+
+      const EDITABLE = [
+        "#about .eyebrow", "#about h1", "#about .role", "#about .bio", "#about .tag", "#about .links .btn",
+        ".news time", ".news li > span",
+        ".pub-title", ".authors", ".pub-meta", ".pub details p", ".pub-links a", ".note",
+        ".item h3", ".item .date", ".item .sub", ".desc li"
+      ].join(",");
+      const BLOCKS = ".news li, #publications .pub, .page .item, .desc li, #about .tag, #about .links .btn, .pub-links a";
+      const inPreview = el => !!el.closest(".previews");
+
+      let mode = "true";
+      try { const d = document.createElement("div"); d.contentEditable = "plaintext-only"; mode = "plaintext-only"; } catch (e) {}
+      // Collapse the source code's line breaks/indentation so the text looks the same while editing
+      const tidyText = el => {
+        const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        const nodes = [];
+        while (w.nextNode()) nodes.push(w.currentNode);
+        nodes.forEach(n => (n.nodeValue = n.nodeValue.replace(/\s+/g, " ")));
+        if (nodes.length) {
+          nodes[0].nodeValue = nodes[0].nodeValue.replace(/^ /, "");
+          nodes[nodes.length - 1].nodeValue = nodes[nodes.length - 1].nodeValue.replace(/ $/, "");
+        }
+      };
+      const makeEditable = () => document.querySelectorAll(EDITABLE).forEach(el => {
+        if (inPreview(el)) return;
+        tidyText(el);
+        el.setAttribute("contenteditable", mode);
+      });
+      makeEditable();
+
+      const ui = html => {
+        const t = document.createElement("template");
+        t.innerHTML = html.trim();
+        const el = t.content.firstElementChild;
+        el.setAttribute("data-editor", "");
+        body.appendChild(el);
+        return el;
+      };
+
+      // Bottom toolbar
+      const toolbar = ui(`
+        <div id="edToolbar">
+          <span class="ed-dot"></span><b>Edit mode</b>
+          <span class="ed-status" id="edStatus">No changes</span>
+          <span class="ed-tip">Click text to edit · hover for ⧉ ↑ ↓ ✕</span>
+          <button id="edStyleBtn">Aa Style</button>
+          <button class="primary" id="edSave">Save</button>
+          <button id="edExit">Exit</button>
+        </div>`);
+      const status = t => (document.getElementById("edStatus").textContent = t);
+      const markDirty = () => { dirty = true; status("Unsaved changes"); };
+
+      // Font & size panel ("Aa Style")
+      const FONTS = {
+        "Arial":          [null, "sans"],
+        "Inter":          ["Inter:wght@400;500;600;700", "sans"],
+        "IBM Plex Sans":  ["IBM+Plex+Sans:wght@400;500;600;700", "sans"],
+        "Source Sans 3":  ["Source+Sans+3:wght@400;500;600;700", "sans"],
+        "Space Grotesk":  ["Space+Grotesk:wght@400;500;600;700", "sans"],
+        "Newsreader":     ["Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700", "serif"],
+        "Source Serif 4": ["Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700", "serif"],
+        "Fraunces":       ["Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700", "serif"]
+      };
+      const userStyle = document.getElementById("userStyle");
+      const st = {
+        body: FONTS[userStyle.dataset.body] ? userStyle.dataset.body : "Arial",
+        head: FONTS[userStyle.dataset.head] ? userStyle.dataset.head : "Arial",
+        scale: parseFloat(userStyle.dataset.scale) || 1
+      };
+      function applyStyle() {
+        const stack = f => f === "Arial" ? 'Arial, "Helvetica Neue", Helvetica, sans-serif'
+          : `"${f}", ${FONTS[f][1] === "serif" ? "Georgia, serif" : "Arial, sans-serif"}`;
+        Object.assign(userStyle.dataset, st);
+        userStyle.textContent =
+          `:root { --sans: ${stack(st.body)}; --head: ${stack(st.head)}; ` +
+          `--mono: ${stack(st.body)}; --head-weight: ${FONTS[st.head][1] === "serif" ? 500 : 700}; --scale: ${st.scale}; }`;
+        const fams = [...new Set([st.body, st.head])].filter(f => FONTS[f][0]).map(f => "family=" + FONTS[f][0]);
+        const link = document.getElementById("fontLink");
+        if (fams.length) link.href = `https://fonts.googleapis.com/css2?${fams.join("&")}&display=swap`;
+        else link.removeAttribute("href");
+      }
+      const fontOptions = sel => ["sans", "serif"].map(kind =>
+        `<optgroup label="${kind === "sans" ? "Sans-serif" : "Serif"}">` +
+        Object.keys(FONTS).filter(f => FONTS[f][1] === kind)
+          .map(f => `<option${f === sel ? " selected" : ""}>${f}</option>`).join("") + `</optgroup>`).join("");
+      const stylePanel = ui(`
+        <div id="edStyle">
+          <label>Body text font<select data-k="body">${fontOptions(st.body)}</select></label>
+          <label>Heading font (name, page titles)<select data-k="head">${fontOptions(st.head)}</select></label>
+          <label>Text size <b id="edScaleVal"></b><input type="range" data-k="scale" min="0.85" max="1.25" step="0.05" value="${st.scale}" /></label>
+          <div class="ed-actions"><button data-reset>Reset</button><button class="primary" data-done>Done</button></div>
+        </div>`);
+      const scaleLabel = () => (document.getElementById("edScaleVal").textContent = Math.round(st.scale * 100) + "%");
+      scaleLabel();
+      stylePanel.querySelectorAll("[data-k]").forEach(el => el.addEventListener("input", () => {
+        st[el.dataset.k] = el.dataset.k === "scale" ? parseFloat(el.value) : el.value;
+        scaleLabel(); applyStyle(); markDirty();
+      }));
+      stylePanel.querySelector("[data-reset]").addEventListener("click", () => {
+        Object.assign(st, { body: "Arial", head: "Arial", scale: 1 });
+        stylePanel.querySelector('[data-k="body"]').value = "Arial";
+        stylePanel.querySelector('[data-k="head"]').value = "Arial";
+        stylePanel.querySelector('[data-k="scale"]').value = 1;
+        scaleLabel(); applyStyle(); markDirty();
+      });
+      stylePanel.querySelector("[data-done]").addEventListener("click", () => stylePanel.classList.remove("open"));
+      document.getElementById("edStyleBtn").addEventListener("click", () => stylePanel.classList.toggle("open"));
+
+      document.addEventListener("input", e => { if (e.target.closest?.("[contenteditable]")) markDirty(); });
+      document.addEventListener("keydown", e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "s") { e.preventDefault(); save(); }
+        if (e.key === "Enter" && !e.shiftKey && e.target.closest?.("[contenteditable]")) { e.preventDefault(); e.target.blur(); }
+        if (e.key === "Escape") closePop();
+      });
+      document.addEventListener("paste", e => {
+        if (mode === "plaintext-only" || !e.target.closest?.("[contenteditable]")) return;
+        e.preventDefault();
+        document.execCommand("insertText", false, e.clipboardData.getData("text/plain").replace(/\s*\n\s*/g, " "));
+      });
+      addEventListener("beforeunload", e => { if (dirty) { e.preventDefault(); e.returnValue = ""; } });
+
+      // Hover bar: duplicate / move / delete (+ home & author toggles for papers)
+      const bar = ui(`<div id="edBar"></div>`);
+      function showBar(b) {
+        cur = b;
+        const isPub = b.matches(".pub");
+        bar.innerHTML = `
+          ${isPub ? `<button data-a="sel" title="Show this paper on the home page">${b.hasAttribute("data-selected") ? "★ on home" : "☆ not on home"}</button>
+                     <button data-a="type" title="Switch first author / co-author">${b.dataset.type === "first" ? "first author" : "co-author"}</button>` : ""}
+          <button data-a="dup" title="Duplicate">⧉</button>
+          <button data-a="up" title="Move up">↑</button>
+          <button data-a="down" title="Move down">↓</button>
+          <button data-a="del" title="Delete">✕</button>`;
+        bar.style.display = "flex";
+        const r = b.getBoundingClientRect();
+        bar.style.top = (r.top + scrollY - bar.offsetHeight - 4) + "px";
+        bar.style.left = Math.max(scrollX + 8, r.right + scrollX - bar.offsetWidth) + "px";
+      }
+      const hideBar = () => { bar.style.display = "none"; cur = null; };
+      document.addEventListener("mouseover", e => {
+        if (e.target.closest("[data-editor]")) return;
+        const b = e.target.closest(BLOCKS);
+        if (b && !inPreview(b) && b !== cur) showBar(b);
+      });
+      bar.addEventListener("click", e => {
+        const a = e.target.closest("button")?.dataset.a;
+        if (!a || !cur) return;
+        if (a === "dup") { const c = cur.cloneNode(true); cur.after(c); cur = c; }
+        if (a === "up") { const p = cur.previousElementSibling; if (p?.matches(BLOCKS)) p.before(cur); }
+        if (a === "down") { const n = cur.nextElementSibling; if (n?.matches(BLOCKS)) n.after(cur); }
+        if (a === "sel") cur.toggleAttribute("data-selected");
+        if (a === "type") cur.dataset.type = cur.dataset.type === "first" ? "co" : "first";
+        if (a === "del") {
+          if (cur.matches(".pub, .item") && !confirm("Delete this entry?")) return;
+          cur.remove(); hideBar(); markDirty(); return;
+        }
+        markDirty(); showBar(cur);
+      });
+
+      // Popover for links and images
+      const pop = ui(`<div id="edPop"></div>`);
+      function closePop() { pop.style.display = "none"; }
+      function openPop(anchor, fields, extra) {
+        pop.innerHTML = fields.map((f, i) => `
+          <label>${f.label}
+            ${f.options
+              ? `<select data-i="${i}">${f.options.map(o => `<option${o === f.get() ? " selected" : ""}>${o}</option>`).join("")}</select>`
+              : `<input data-i="${i}" value="${esc(f.get())}" spellcheck="false" />`}
+          </label>`).join("") +
+          `<div class="ed-actions">${extra ? `<button data-x>${extra.label}</button>` : ""}<button class="primary" data-close>Done</button></div>`;
+        pop.querySelectorAll("[data-i]").forEach(inp =>
+          inp.addEventListener("input", () => { fields[+inp.dataset.i].set(inp.value); markDirty(); }));
+        pop.querySelector("[data-x]")?.addEventListener("click", () => { extra.run(); closePop(); markDirty(); });
+        pop.querySelector("[data-close]").addEventListener("click", closePop);
+        pop.style.display = "block";
+        const r = anchor.getBoundingClientRect();
+        pop.style.top = (r.bottom + scrollY + 8) + "px";
+        pop.style.left = Math.max(scrollX + 8, Math.min(r.left + scrollX, scrollX + innerWidth - pop.offsetWidth - 8)) + "px";
+      }
+      const imgField = (img, label) => ({
+        label, get: () => img.getAttribute("src"),
+        set: v => { img.classList.remove("missing"); img.setAttribute("src", v); }
+      });
+
+      document.addEventListener("click", e => {
+        if (e.target.closest("[data-editor]")) return;
+        const a = e.target.closest("a");
+        const href = a?.getAttribute("href") || "";
+        if (a && !a.closest("nav") && !href.startsWith("#")) {
+          e.preventDefault();
+          if (inPreview(a)) return;
+          const fields = [{ label: "Link address (URL or file path)", get: () => a.getAttribute("href"), set: v => a.setAttribute("href", v) }];
+          if (a.closest(".pub-links")) fields.push({
+            label: "Icon", options: ["paper", "pdf", "website", "code", "video", "none"],
+            get: () => a.dataset.icon || "none",
+            set: v => { if (v === "none") { delete a.dataset.icon; a.querySelector("svg")?.remove(); } else { a.dataset.icon = v; addIcon(a); } }
+          });
+          const inline = !a.matches(".btn") && !a.closest(".pub-links");
+          openPop(a, fields, inline ? { label: "Remove link", run: () => a.replaceWith(...a.childNodes) } : null);
+          return;
+        }
+        const thumb = e.target.closest("#publications .pub-thumb");
+        if (thumb) {
+          e.preventDefault(); e.stopPropagation();
+          let img = thumb.querySelector("img");
+          if (!img) {
+            img = document.createElement("img");
+            img.alt = "";
+            img.setAttribute("onerror", "this.classList.add('missing')");
+            thumb.appendChild(img);
+          }
+          openPop(thumb, [
+            imgField(img, "Image path (e.g. assets/pubs/paper.png)"),
+            { label: "Text shown when there is no image", get: () => thumb.dataset.venue, set: v => (thumb.dataset.venue = v) }
+          ]);
+          return;
+        }
+        const avatar = e.target.closest(".avatar");
+        if (avatar) { openPop(avatar, [imgField(avatar, "Profile photo path (e.g. assets/profile.jpg)")]); return; }
+        closePop();
+      }, true);
+
+      addEventListener("hashchange", () => { closePop(); hideBar(); });
+
+      // Save: writes a clean copy of the page (no editor UI, no generated content)
+      function cleanHTML() {
+        const doc = document.documentElement.cloneNode(true);
+        doc.removeAttribute("data-theme");
+        doc.querySelectorAll("[data-editor]").forEach(e => e.remove());
+        doc.querySelectorAll("[contenteditable]").forEach(e => e.removeAttribute("contenteditable"));
+        doc.querySelector("body").classList.remove("edit-mode");
+        ["pvNews", "pvPubs", "pvEdu", "pvTeach"].forEach(id => (doc.querySelector("#" + id).innerHTML = ""));
+        doc.querySelectorAll(".pub-links a svg").forEach(s => s.remove());
+        doc.querySelectorAll(".active, .hide, .open, .missing").forEach(e => e.classList.remove("active", "hide", "open", "missing"));
+        doc.querySelector('.filter[data-filter="all"]')?.classList.add("active");
+        doc.querySelectorAll("details[open]").forEach(d => d.removeAttribute("open"));
+        doc.querySelectorAll('[class=""]').forEach(e => e.removeAttribute("class"));
+        doc.querySelector("#lightbox img")?.removeAttribute("src");
+        doc.querySelector("#year").textContent = "";
+        doc.querySelector("#updated").textContent = "";
+        doc.querySelector("title").textContent = "Inbo Sim";
+        return "<!DOCTYPE html>\n" + doc.outerHTML + "\n";
+      }
+      window.__cleanHTML = cleanHTML;
+
+      async function save() {
+        const html = cleanHTML();
+        try {
+          if (window.showSaveFilePicker) {
+            fileHandle ??= await showSaveFilePicker({
+              suggestedName: "index.html",
+              types: [{ description: "HTML", accept: { "text/html": [".html"] } }]
+            });
+            const w = await fileHandle.createWritable();
+            await w.write(html);
+            await w.close();
+          } else {
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(new Blob([html], { type: "text/html" }));
+            a.download = "index.html";
+            a.click();
+            setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+          }
+          dirty = false;
+          status("Saved " + new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+        } catch (err) {
+          if (err.name !== "AbortError") alert("Save failed: " + err.message);
+        }
+      }
+      document.getElementById("edSave").addEventListener("click", save);
+      document.getElementById("edExit").addEventListener("click", () => {
+        if (dirty && !confirm("You have unsaved changes. Leave edit mode anyway?")) return;
+        dirty = false;
+        location.href = location.pathname + location.hash;
+      });
+    }
   </script>
 </body>
 </html>
