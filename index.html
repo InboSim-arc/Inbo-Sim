@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inbo Sim</title>
+  <meta name="description" content="Inbo Sim, PhD candidate in ECE at the University of Virginia. Multimodal e-skin, flexible electronics, heterogeneous integration, human-robot interaction." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ---------- Theme tokens ---------- */
+    :root {
+      --bg: #fbfbfa;
+      --surface: #ffffff;
+      --text: #18181b;
+      --muted: #71717a;
+      --line: #e7e7e4;
+      --accent: #2f5bea;
+      --accent-soft: rgba(47, 91, 234, 0.08);
+      --radius: 14px;
+      --max: 860px;
+      --mono: "JetBrains Mono", ui-monospace, monospace;
+      --sans: "Inter", system-ui, -apple-system, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0d0d0f;
+        --surface: #151518;
+        --text: #ececee;
+        --muted: #8c8c95;
+        --line: #26262b;
+        --accent: #7c9cff;
+        --accent-soft: rgba(124, 156, 255, 0.1);
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #0d0d0f;
+      --surface: #151518;
+      --text: #ececee;
+      --muted: #8c8c95;
+      --line: #26262b;
+      --accent: #7c9cff;
+      --accent-soft: rgba(124, 156, 255, 0.1);
+    }
+
+    /* ---------- Base ---------- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.3s, color 0.3s;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; width: 100%; }
+    main { flex: 1; }
+
+    /* ---------- Nav ---------- */
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: color-mix(in srgb, var(--bg) 80%, transparent);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .logo { font-family: var(--mono); font-weight: 500; font-size: 15px; }
+    .logo span { color: var(--accent); }
+    .nav-right { display: flex; gap: 10px; align-items: center; }
+    .nav-links { display: flex; gap: 4px; align-items: center; }
+    .nav-links a {
+      font-size: 14px; color: var(--muted);
+      padding: 6px 12px; border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--text); background: var(--accent-soft); }
+    .theme-btn {
+      background: none; border: 1px solid var(--line); color: var(--text);
+      width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+      display: grid; place-items: center; font-size: 15px;
+      transition: border-color 0.2s, transform 0.3s;
+    }
+    .theme-btn:hover { border-color: var(--accent); transform: rotate(20deg); }
+    .menu-btn { display: none; }
+
+    /* ---------- Pages ---------- */
+    .page { display: none; padding: 64px 0 72px; }
+    .page.active { display: block; animation: pageIn 0.45s ease both; }
+    @keyframes pageIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .page.active { animation: none; }
+    }
+
+    .page-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+    h2 { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; }
+    h2::before { content: attr(data-num); display: block; font-family: var(--mono); font-size: 13px; color: var(--accent); font-weight: 400; letter-spacing: 0; margin-bottom: 6px; }
+
+    /* ---------- About (home) ---------- */
+    .hero { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; padding-top: 32px; }
+    .eyebrow {
+      font-family: var(--mono); font-size: 13px; color: var(--accent);
+      display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 4px rgba(34,197,94,0.15); }
+    h1 { font-size: clamp(36px, 6vw, 54px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+    .role { color: var(--muted); margin-top: 14px; font-size: 17px; }
+    .bio { margin-top: 22px; max-width: 560px; }
+    .bio strong { font-weight: 600; }
+    .bio a { border-bottom: 1px solid var(--line); }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .tag {
+      font-size: 12.5px; font-family: var(--mono);
+      padding: 4px 10px; border-radius: 999px;
+      border: 1px solid var(--line); color: var(--muted);
+    }
+    .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .btn {
+      font-size: 14px; font-weight: 500;
+      padding: 9px 16px; border-radius: 10px;
+      border: 1px solid var(--line);
+      transition: all 0.2s;
+    }
+    .btn:hover { border-color: var(--text); transform: translateY(-1px); }
+    .btn.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .avatar {
+      width: 240px; height: 240px; border-radius: 18px;
+      object-fit: cover; border: 1px solid var(--line);
+      background: var(--accent-soft);
+    }
+
+    /* Home previews (auto-filled from detail pages) */
+    .previews { margin-top: 72px; display: grid; gap: 48px; }
+    .previews-row { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .pv-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding-bottom: 10px; margin-bottom: 6px; border-bottom: 1px solid var(--line);
+    }
+    .pv-head h3 { font-size: 15px; font-weight: 600; }
+    .pv-head h3 span { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 400; margin-right: 8px; }
+    .pv-head a { font-size: 13px; color: var(--muted); transition: color 0.2s; }
+    .pv-head a:hover { color: var(--accent); }
+    .pv-list { list-style: none; }
+    .pv-list li { padding: 10px 0; font-size: 14.5px; display: grid; gap: 14px; }
+    .pv-news li { grid-template-columns: 80px 1fr; }
+    .pv-pubs { margin-top: 10px; }
+    .pv-list time, .pv-list .when { font-family: var(--mono); font-size: 12.5px; color: var(--muted); padding-top: 2px; }
+    .pv-list .t { font-weight: 500; line-height: 1.45; }
+    .pv-list .s { color: var(--muted); font-size: 13.5px; }
+    .pv-items li { grid-template-columns: 1fr auto; }
+
+    /* ---------- News ---------- */
+    .news { list-style: none; }
+    .news li { display: grid; grid-template-columns: 96px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .news li:last-child { border-bottom: none; }
+    .news time { font-family: var(--mono); font-size: 13px; color: var(--muted); padding-top: 2px; }
+
+    /* ---------- Publications ---------- */
+    .filters { display: flex; gap: 6px; }
+    .filter {
+      font: 500 13px var(--sans); color: var(--muted);
+      background: none; border: 1px solid var(--line);
+      padding: 5px 12px; border-radius: 999px; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter.active, .filter:hover { color: var(--text); border-color: var(--text); }
+    .pub {
+      display: grid; grid-template-columns: 240px 1fr; gap: 28px;
+      padding: 22px; margin: 0 -22px; border-radius: var(--radius);
+      transition: background 0.2s;
+    }
+    .pub:hover { background: var(--surface); box-shadow: 0 0 0 1px var(--line); }
+    .pub + .pub { margin-top: 12px; }
+
+    /* Thumbnail: image if present, otherwise a venue label placeholder */
+    .pub-thumb {
+      aspect-ratio: 16 / 10; border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--line); background: var(--accent-soft);
+      display: grid; place-items: center; align-self: start;
+    }
+    .pub-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; }
+    .pub-thumb:empty::after {
+      content: attr(data-venue);
+      font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--accent);
+    }
+
+    .pub-title { font-weight: 600; font-size: 17px; line-height: 1.4; letter-spacing: -0.01em; }
+    .authors { color: var(--muted); font-size: 14.5px; margin-top: 8px; }
+    .authors b { color: var(--text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+    .authors sup { font-size: 10px; }
+    .pub-meta { font-size: 14.5px; color: var(--muted); margin-top: 4px; font-style: italic; }
+    .pub-meta b { color: var(--text); font-weight: 600; }
+    .award { color: #e0785a; font-style: normal; }
+    .pub-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .pub-links a {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+      padding: 4px 10px; border: 1px solid var(--line); border-radius: 7px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .pub-links a:hover { color: var(--accent); border-color: var(--accent); }
+    .pub-links svg { width: 13px; height: 13px; flex: none; }
+
+    /* Click a thumbnail to view it large */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 50; display: none;
+      background: rgba(0,0,0,0.8); place-items: center; padding: 24px; cursor: zoom-out;
+    }
+    .lightbox.open { display: grid; }
+    .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 10px; }
+    .pub.hide { display: none; }
+    .pub details { margin-top: 10px; }
+    .pub summary {
+      font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+      cursor: pointer; list-style: none; width: fit-content;
+    }
+    .pub summary::-webkit-details-marker { display: none; }
+    .pub summary::before { content: "+ "; }
+    .pub details[open] summary::before { content: "− "; }
+    .pub summary:hover { color: var(--accent); }
+    .pub details p { font-size: 14.5px; margin-top: 8px; color: var(--muted); line-height: 1.6; }
+    .pub-fig { margin-top: 12px; max-width: 100%; border-radius: 10px; border: 1px solid var(--line); }
+    .desc { grid-column: 1 / -1; margin-top: 8px; padding-left: 18px; font-size: 14.5px; color: var(--muted); }
+    .desc li { margin: 3px 0; }
+    .note { font-size: 13px; color: var(--muted); margin-top: 16px; }
+    .note a { color: var(--accent); }
+
+    /* ---------- Education / Teaching ---------- */
+    .item { display: grid; grid-template-columns: 1fr auto; gap: 4px 20px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .item:last-child { border-bottom: none; }
+    .item h3 { font-size: 16px; font-weight: 600; }
+    .item .sub { color: var(--muted); font-size: 14.5px; grid-column: 1; }
+    .item .date { font-family: var(--mono); font-size: 13px; color: var(--muted); grid-row: 1; grid-column: 2; padding-top: 2px; }
+
+    /* ---------- Footer ---------- */
+    footer { padding: 32px 0 48px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 720px) {
+      .page { padding: 40px 0 56px; }
+      .hero { grid-template-columns: 1fr; padding-top: 8px; }
+      .avatar { width: 140px; height: 140px; border-radius: 14px; grid-row: 1; }
+      .previews { margin-top: 48px; gap: 36px; }
+      .previews-row { grid-template-columns: 1fr; gap: 36px; }
+      .pv-news li { grid-template-columns: 1fr; gap: 2px; }
+      .nav-links {
+        position: absolute; top: 64px; left: 0; right: 0;
+        flex-direction: column; align-items: stretch; gap: 4px;
+        padding: 12px 16px 16px; background: var(--bg); border-bottom: 1px solid var(--line);
+        display: none;
+      }
+      .nav-links.open { display: flex; }
+      .menu-btn { display: grid; }
+      .pub { grid-template-columns: 1fr; gap: 14px; }
+      .news li { grid-template-columns: 1fr; gap: 2px; }
+      .item { grid-template-columns: 1fr; }
+      .item .date { grid-row: auto; grid-column: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= NAV ================= -->
+  <nav>
+    <div class="wrap nav-inner">
+      <a href="#about" class="logo">inbo<span>.</span>sim</a>
+      <div class="nav-right">
+        <div class="nav-links" id="navLinks">
+          <a href="#about" data-page="about">About</a>
+          <a href="#news" data-page="news">News</a>
+          <a href="#publications" data-page="publications">Publications</a>
+          <a href="#education" data-page="education">Education</a>
+          <a href="#teaching" data-page="teaching">Teaching</a>
+          <a href="assets/CV_InboSim.pdf" target="_blank">CV ↗</a>
+        </div>
+        <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">◐</button>
+        <button class="theme-btn menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+
+    <!-- ================= ABOUT (HOME) ================= -->
+    <section id="about" class="page">
+      <div class="hero">
+        <div>
+          <div class="eyebrow"><span class="dot"></span>Open to full-time roles · 2027</div>
+          <h1>Inbo Sim</h1>
+          <p class="role">Ph.D. Candidate, Electrical &amp; Computer Engineering · University of Virginia</p>
+          <p class="bio">
+            I build <strong>multimodal electronic skin (e-skin)</strong> that lets robots feel and respond to the
+            physical world. My work spans flexible electronics, heterogeneous chip integration, and
+            human-robot interaction, from device fabrication up to on-body edge computing.
+            I am advised by <a href="[Lab URL]" target="_blank">Prof. Kyusang Lee</a>
+            in the Intelligent Sensing Lab.
+          </p>
+          <div class="tags">
+            <span class="tag">e-skin</span>
+            <span class="tag">flexible electronics</span>
+            <span class="tag">heterogeneous integration</span>
+            <span class="tag">HRI</span>
+            <span class="tag">AR/VR displays</span>
+          </div>
+          <div class="links">
+            <a class="btn primary" href="assets/CV_InboSim.pdf" target="_blank">CV ↗</a>
+            <a class="btn" href="mailto:[email]@virginia.edu">Email</a>
+            <a class="btn" href="[Google Scholar URL]" target="_blank">Scholar</a>
+            <a class="btn" href="[LinkedIn URL]" target="_blank">LinkedIn</a>
+            <a class="btn" href="https://github.com/[username]" target="_blank">GitHub</a>
+          </div>
+        </div>
+        <img class="avatar" src="assets/profile.jpg" alt="Inbo Sim" onerror="this.style.display='none'" />
+      </div>
+
+      <!-- Previews: filled automatically by JS from the detail pages below -->
+      <div class="previews">
+        <div>
+          <div class="pv-head"><h3><span>01</span>Recent News</h3><a href="#news">All news →</a></div>
+          <ul class="pv-list pv-news" id="pvNews"></ul>
+        </div>
+        <div>
+          <div class="pv-head"><h3><span>02</span>Selected Publications</h3><a href="#publications">All publications →</a></div>
+          <div class="pv-pubs" id="pvPubs"></div>
+        </div>
+        <div class="previews-row">
+          <div>
+            <div class="pv-head"><h3><span>03</span>Education</h3><a href="#education">Details →</a></div>
+            <ul class="pv-list pv-items" id="pvEdu"></ul>
+          </div>
+          <div>
+            <div class="pv-head"><h3><span>04</span>Teaching</h3><a href="#teaching">Details →</a></div>
+            <ul class="pv-list pv-items" id="pvTeach"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= NEWS ================= -->
+    <section id="news" class="page">
+      <div class="page-head"><h2 data-num="01">News</h2></div>
+      <ul class="news">
+        <li><time>2026.[MM]</time><span>Our paper on event-driven neuromorphic gaze decoding with e-skin electrooculography is published in <b>ACS Nano</b>.</span></li>
+        <li><time>[YYYY.MM]</time><span>First-author paper published in <b>Nature Electronics</b>.</span></li>
+        <li><time>2025.[MM]</time><span>Our Perspective on microdisplay technologies for AR/VR headsets is published in <b>Nature Reviews Electrical Engineering</b>.</span></li>
+        <li><time>[YYYY.MM]</time><span>[Award / talk / conference presentation]</span></li>
+        <li><time>[YYYY.MM]</time><span>Started Ph.D. at the University of Virginia, joining the Intelligent Sensing Lab.</span></li>
+      </ul>
+    </section>
+
+    <!-- ================= PUBLICATIONS ================= -->
+    <section id="publications" class="page">
+      <div class="page-head">
+        <h2 data-num="02">Publications</h2>
+        <div class="filters">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="first">First author</button>
+        </div>
+      </div>
+
+      <!--
+        How to add a paper: copy one <article> block.
+        data-type     : "first" or "co"  (used by the filter)
+        data-selected : add this attribute to also show the paper on the home page
+        .pub-thumb    : put the image in assets/pubs/. If it is missing, the venue name is shown instead.
+        Link chips    : write <a data-icon="paper|pdf|website|code|video"> and the icon is added automatically.
+        <details>     : abstract, shown only on the Publications tab.
+      -->
+      <article class="pub" data-type="first" data-selected>
+        <div class="pub-thumb" data-venue="ACS Nano"><img src="assets/pubs/acsnano2026.png" alt="" onerror="this.remove()" /></div>
+        <div>
+          <p class="pub-title">Event-Driven Neuromorphic Gaze Decoding via e-Skin Electrooculography</p>
+          <p class="authors"><b>Inbo Sim</b><sup>*</sup>, [Co-first author]<sup>*</sup>, …, Kyusang Lee</p>
+          <p class="pub-meta"><b>ACS Nano</b> 2026</p>
+          <div class="pub-links">
+            <a data-icon="paper" href="[DOI URL]" target="_blank">paper</a>
+            <a data-icon="pdf" href="[PDF URL]" target="_blank">pdf</a>
+            <a data-icon="code" href="[Code URL]" target="_blank">code</a>
+          </div>
+          <details>
+            <summary>abstract</summary>
+            <p>[Abstract or a 2–3 sentence summary of the paper.]</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="pub" data-type="first" data-selected>
+        <div class="pub-thumb" data-venue="Nature Electronics"><img src="assets/pubs/natelectron.png" alt="" onerror="this.remove()" /></div>
+        <div>
+          <p class="pub-title">[Paper title]</p>
+          <p class="authors"><b>Inbo Sim</b>, …, Kyusang Lee</p>
+          <p class="pub-meta"><b>Nature Electronics</b> [Year] <span class="award">([Award / highlight, optional])</span></p>
+          <div class="pub-links">
+            <a data-icon="paper" href="[DOI URL]" target="_blank">paper</a>
+            <a data-icon="website" href="[Project page URL]" target="_blank">website</a>
+            <a data-icon="video" href="[Video URL]" target="_blank">video</a>
+          </div>
+          <details>
+            <summary>abstract</summary>
+            <p>[Abstract or a 2–3 sentence summary of the paper.]</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="pub" data-type="first" data-selected>
+        <div class="pub-thumb" data-venue="Nat. Rev. Electr. Eng."><img src="assets/pubs/natreviee2025.png" alt="" onerror="this.remove()" /></div>
+        <div>
+          <p class="pub-title">Microdisplay technologies in augmented reality and virtual reality headsets</p>
+          <p class="authors"><b>Inbo Sim</b>, …</p>
+          <p class="pub-meta"><b>Nature Reviews Electrical Engineering</b> 2025 · Perspective</p>
+          <div class="pub-links">
+            <a data-icon="paper" href="[DOI URL]" target="_blank">paper</a>
+          </div>
+          <details>
+            <summary>abstract</summary>
+            <p>[Abstract or a 2–3 sentence summary of the paper.]</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="pub" data-type="co">
+        <div class="pub-thumb" data-venue="[Venue]"><img src="assets/pubs/[file].png" alt="" onerror="this.remove()" /></div>
+        <div>
+          <p class="pub-title">[Co-authored paper title]</p>
+          <p class="authors">[Author], <b>Inbo Sim</b>, …</p>
+          <p class="pub-meta"><b>[Journal]</b> [Year]</p>
+          <div class="pub-links"><a data-icon="paper" href="[DOI URL]" target="_blank">paper</a></div>
+        </div>
+      </article>
+
+      <p class="note">* Equal contribution. Full list on <a href="[Google Scholar URL]" target="_blank">Google Scholar</a>.</p>
+    </section>
+
+    <!-- ================= EDUCATION ================= -->
+    <section id="education" class="page">
+      <div class="page-head"><h2 data-num="03">Education</h2></div>
+      <!-- The <ul class="desc"> lists show only on this page, not on the home preview -->
+      <div class="item">
+        <h3>Ph.D. in Electrical &amp; Computer Engineering</h3>
+        <span class="date">[YYYY] – 2027 (expected)</span>
+        <p class="sub">University of Virginia · Advisor: Prof. Kyusang Lee</p>
+        <ul class="desc">
+          <li>Dissertation: [Working title]</li>
+          <li>Intelligent Sensing Lab: multimodal e-skin, flexible electronics, heterogeneous chip integration</li>
+          <li>[Fellowship / award, if any]</li>
+        </ul>
+      </div>
+      <div class="item">
+        <h3>[M.S. / B.S. in ...]</h3>
+        <span class="date">[YYYY] – [YYYY]</span>
+        <p class="sub">[University]</p>
+        <ul class="desc">
+          <li>[Thesis / advisor / honors]</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= TEACHING ================= -->
+    <section id="teaching" class="page">
+      <div class="page-head"><h2 data-num="04">Teaching</h2></div>
+      <div class="item">
+        <h3>Teaching Assistant · [Course code: Course name]</h3>
+        <span class="date">[Semester YYYY]</span>
+        <p class="sub">University of Virginia, Dept. of ECE · Instructor: [Name]</p>
+        <ul class="desc">
+          <li>[Responsibilities, e.g. led weekly lab sessions for ~N students]</li>
+          <li>[Grading, office hours, course material development]</li>
+        </ul>
+      </div>
+      <div class="item">
+        <h3>Teaching Assistant · [Course code: Course name]</h3>
+        <span class="date">[Semester YYYY]</span>
+        <p class="sub">University of Virginia, Dept. of ECE · Instructor: [Name]</p>
+        <ul class="desc">
+          <li>[Responsibilities]</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <span>© <span id="year"></span> Inbo Sim · Charlottesville, VA</span>
+    <span>Last updated <span id="updated"></span></span>
+  </footer>
+
+  <div class="lightbox" id="lightbox"><img alt="" /></div>
+
+  <script>
+    // ---------- Home previews: built from the detail pages ----------
+    const PREVIEW = { news: 3, pubs: 3 };
+    const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+    // News: first N items, as-is
+    document.getElementById("pvNews").innerHTML =
+      [...document.querySelectorAll("#news .news li")].slice(0, PREVIEW.news)
+        .map(li => `<li>${li.innerHTML}</li>`).join("");
+
+    // Link chip icons (data-icon="paper|pdf|website|code|video")
+    const ICONS = {
+      paper:   '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
+      pdf:     '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 11v6m-3-3 3 3 3-3"/>',
+      website: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+      code:    '<path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>',
+      video:   '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3z"/>'
+    };
+    document.querySelectorAll(".pub-links a[data-icon]").forEach(a => {
+      const d = ICONS[a.dataset.icon];
+      if (d) a.insertAdjacentHTML("afterbegin",
+        `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`);
+    });
+
+    // Publications on home: full cards (with thumbnail) for papers marked data-selected,
+    // without the abstract toggle
+    let pubs = [...document.querySelectorAll("#publications .pub[data-selected]")];
+    if (!pubs.length) pubs = [...document.querySelectorAll("#publications .pub")];
+    const pvPubs = document.getElementById("pvPubs");
+    pubs.slice(0, PREVIEW.pubs).forEach(p => {
+      const card = p.cloneNode(true);
+      card.querySelector("details")?.remove();
+      pvPubs.appendChild(card);
+    });
+
+    // Click a thumbnail to view it large
+    const lightbox = document.getElementById("lightbox");
+    document.addEventListener("click", e => {
+      const img = e.target.closest(".pub-thumb img");
+      if (img) { lightbox.querySelector("img").src = img.src; lightbox.classList.add("open"); }
+    });
+    lightbox.addEventListener("click", () => lightbox.classList.remove("open"));
+    addEventListener("keydown", e => { if (e.key === "Escape") lightbox.classList.remove("open"); });
+
+    // Education & Teaching: title, place, date (no bullet details)
+    const briefItems = (sel, target) => {
+      document.getElementById(target).innerHTML =
+        [...document.querySelectorAll(sel)].map(it => `
+          <li>
+            <div>
+              <div class="t">${it.querySelector("h3").innerHTML}</div>
+              <div class="s">${it.querySelector(".sub").innerHTML.split(" · ")[0]}</div>
+            </div>
+            <span class="when">${esc(it.querySelector(".date").textContent)}</span>
+          </li>`).join("");
+    };
+    briefItems("#education .item", "pvEdu");
+    briefItems("#teaching .item", "pvTeach");
+
+    // ---------- Page routing (hash based, works on GitHub Pages) ----------
+    const pages = [...document.querySelectorAll(".page")];
+    const navLinks = document.getElementById("navLinks");
+    const titles = { about: "Inbo Sim", news: "News", publications: "Publications", education: "Education", teaching: "Teaching" };
+
+    function route() {
+      const id = location.hash.replace("#", "") || "about";
+      const target = pages.find(p => p.id === id) ? id : "about";
+      pages.forEach(p => p.classList.toggle("active", p.id === target));
+      navLinks.querySelectorAll("a[data-page]").forEach(a =>
+        a.classList.toggle("active", a.dataset.page === target));
+      document.title = target === "about" ? "Inbo Sim" : titles[target] + " · Inbo Sim";
+      navLinks.classList.remove("open");
+      window.scrollTo(0, 0);
+    }
+    addEventListener("hashchange", route);
+    route();
+
+    // ---------- Theme toggle (remembers choice) ----------
+    const root = document.documentElement;
+    try {
+      const saved = localStorage.getItem("theme");
+      if (saved) root.dataset.theme = saved;
+    } catch (e) {}
+    document.getElementById("themeBtn").addEventListener("click", () => {
+      const isDark = root.dataset.theme
+        ? root.dataset.theme === "dark"
+        : matchMedia("(prefers-color-scheme: dark)").matches;
+      root.dataset.theme = isDark ? "light" : "dark";
+      try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+    });
+
+    // ---------- Mobile menu ----------
+    document.getElementById("menuBtn").addEventListener("click", () => navLinks.classList.toggle("open"));
+
+    // ---------- Publication filter ----------
+    document.querySelectorAll(".filter").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const f = btn.dataset.filter;
+        document.querySelectorAll("#publications .pub").forEach(p =>
+          p.classList.toggle("hide", f !== "all" && p.dataset.type !== f));
+      });
+    });
+
+    // ---------- Footer dates ----------
+    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("updated").textContent =
+      new Date(document.lastModified).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+  </script>
+</body>
+</html>
